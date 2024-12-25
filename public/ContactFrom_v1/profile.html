@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodingDung | Profile Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f5f5f5;
+            margin-top: 20px;
+        }
+        .ui-w-80 {
+            width: 80px !important;
+            height: auto;
+        }
+        .btn-default {
+            border-color: rgba(24, 28, 33, 0.1);
+            background: rgba(0, 0, 0, 0);
+            color: #4E5155;
+        }
+        .sidebar-toggle {
+            display: none;
+            font-size: 1.5rem;
+        }
+        .account-settings-links {
+            display: flex;
+            flex-direction: column;
+        }
+        @media (max-width: 768px) {
+            .sidebar-toggle {
+                display: inline-block;
+            }
+            .account-settings-sidebar {
+                display: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: #ffffff;
+                z-index: 1050;
+                overflow-y: auto;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container light-style flex-grow-1 container-p-y">
+        <h4 class="font-weight-bold py-3 mb-4 d-flex align-items-center">
+            <button class="btn sidebar-toggle mr-2" onclick="toggleSidebar()">&#9776;</button>
+            Account settings
+        </h4>
+        <div class="card overflow-hidden">
+            <div class="row no-gutters row-bordered row-border-light">
+                <div class="col-md-3 account-settings-sidebar">
+                    <div class="list-group list-group-flush account-settings-links">
+                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general" onclick="closeSidebar()">General</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password" onclick="closeSidebar()">Change password</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info" onclick="closeSidebar()">Info</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links" onclick="closeSidebar()">Social links</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-connections" onclick="closeSidebar()">Connections</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications" onclick="closeSidebar()">Notifications</a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="tab-content">
+                        <!-- General Tab Content -->
+                        <div class="tab-pane fade active show" id="account-general">
+                            <!-- Profile Photo Upload, Username, Name, Email, Company -->
+                        </div>
+                        <!-- Change Password Tab Content -->
+                        <div class="tab-pane fade" id="account-change-password">
+                            <!-- Change Password Fields -->
+                        </div>
+                        <!-- Info Tab Content -->
+                        <div class="tab-pane fade" id="account-info">
+                            <!-- Personal Information -->
+                        </div>
+                        <!-- Social Links Tab Content -->
+                        <div class="tab-pane fade" id="account-social-links">
+                            <!-- Social Links Form Fields -->
+                        </div>
+                        <!-- Connections Tab Content -->
+                        <div class="tab-pane fade" id="account-connections">
+                            <!-- Social Connections Buttons -->
+                        </div>
+                        <!-- Notifications Tab Content -->
+                        <div class="tab-pane fade" id="account-notifications">
+                            <!-- Notifications Settings -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-right mt-3">
+            <button type="button" class="btn btn-primary">Save changes</button>&nbsp;
+            <button type="button" class="btn btn-default">Cancel</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.account-settings-sidebar').classList.toggle('d-block');
+        }
+        function closeSidebar() {
+            document.querySelector('.account-settings-sidebar').classList.remove('d-block');
+        }
+    </script>
+</body>
+
+</html>

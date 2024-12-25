@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload and Preview with Remove Option</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            border-radius: 8px;
+            text-align: center;
+        }
+        #file-list, #no-files-div {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .file-item {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            border-radius: 8px;
+            background-color: #fafafa;
+            padding: 10px;
+        }
+        .file-item img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        #no-files-div img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+        }
+
+        /* Custom file input button styling */
+        #file-input-wrapper {
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        #file-input {
+            display: none; /* Hide the default file input */
+        }
+
+        #file-input-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #file-input-label:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            .file-item img {
+                max-height: 150px;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+        @media (min-width: 601px) and (max-width: 900px) {
+            .file-item img {
+                max-height: 200px;
+            }
+        }
+        @media (min-width: 901px) {
+            .file-item img {
+                max-height: 250px;
+            }
+            .container {
+                max-width: 700px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Upload Files</h2>
+    
+    <!-- Custom styled file input button -->
+    <div id="file-input-wrapper">
+        <input type="file" id="file-input" multiple>
+        <label for="file-input" id="file-input-label">Choose Files</label>
+    </div>
+
+    <!-- New div to display when no files are selected -->
+    <div id="no-files-div">
+        <img src="images/feed-image-1.png" alt="No files selected">
+    </div>
+    
+    <!-- Div to display selected files -->
+    <div id="file-list" style="display: none;">
+        <!-- Selected files will be displayed here -->
+    </div>
+</div>
+
+<script>
+    
+    const fileInput = document.getElementById('file-input');
+    const fileList = document.getElementById('file-list');
+    const noFilesDiv = document.getElementById('no-files-div');
+    let selectedFiles = []; // Array to hold selected files
+
+    fileInput.addEventListener('change', function(event) {
+        const files = Array.from(event.target.files);
+
+        // Update display based on whether files are selected
+        if (files.length === 0) {
+            noFilesDiv.style.display = "block";
+            fileList.style.display = "none";
+            selectedFiles = []; // Clear selectedFiles array
+            return;
+        } else {
+            noFilesDiv.style.display = "none";
+            fileList.style.display = "flex";
+        }
+
+        fileList.innerHTML = ""; // Clear the displayed file list
+        selectedFiles = files;
+
+        files.forEach((file, index) => {
+            const fileItem = document.createElement('div');
+            fileItem.classList.add('file-item');
+
+            // Display image if the file is an image
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.onload = () => URL.revokeObjectURL(img.src);
+                fileItem.appendChild(img);
+            } else {
+                // If not an image, display the file name
+                const placeholder = document.createElement('div');
+                placeholder.textContent = `📄 ${file.name}`;
+                placeholder.style.fontSize = "16px";
+                placeholder.style.color = "#333";
+                fileItem.appendChild(placeholder);
+            }
+
+            // Add remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = "Remove";
+            removeBtn.classList.add('remove-btn');
+            removeBtn.type = "button";
+            removeBtn.onclick = () => removeFile(index);
+            fileItem.appendChild(removeBtn);
+
+            fileList.appendChild(fileItem);
+        });
+    });
+
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);  // Remove the file from selectedFiles array
+        updateFileListDisplay();
+
+        // Show the no-files-div if no files remain
+        if (selectedFiles.length === 0) {
+            noFilesDiv.style.display = "block";
+            fileList.style.display = "none";
+            fileInput.value = "";  // Reset file input
+        }
+    }
+
+    function updateFileListDisplay() {
+        fileList.innerHTML = ""; // Clear current display
+
+        selectedFiles.forEach((file, index) => {
+            const fileItem = document.createElement('div');
+            fileItem.classList.add('file-item');
+
+            // Display image if the file is an image
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.onload = () => URL.revokeObjectURL(img.src);
+                fileItem.appendChild(img);
+            } else {
+                // If not an image, display the file name
+                const placeholder = document.createElement('div');
+                placeholder.textContent = `📄 ${file.name}`;
+                placeholder.style.fontSize = "16px";
+                placeholder.style.color = "#333";
+                fileItem.appendChild(placeholder);
+            }
+
+            // Add remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = "Remove";
+            removeBtn.classList.add('remove-btn');
+            removeBtn.type = "button";
+            removeBtn.onclick = () => removeFile(index);
+            fileItem.appendChild(removeBtn);
+
+            fileList.appendChild(fileItem);
+        });
+    }
+</script>
+
+</body>
+</html>

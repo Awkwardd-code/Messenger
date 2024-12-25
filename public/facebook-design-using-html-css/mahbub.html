@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit View with Image Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        // Function to create and display the container div with all functionalities
+        function createAndShowContainer() {
+            // Container creation
+            const container = document.createElement('div');
+            container.className = 'container';
+            container.setAttribute('data-existing-image-url', 'images/feed-image-4.png');
+
+            // Container styling
+            container.style.maxWidth = '600px';
+            container.style.margin = 'auto';
+            container.style.background = '#fff';
+            container.style.padding = '20px';
+            container.style.borderRadius = '8px';
+            container.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+
+            // Title
+            const title = document.createElement('h1');
+            title.textContent = 'Edit View with Image Preview';
+            container.appendChild(title);
+
+            // File input
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.id = 'editFileInput';
+            fileInput.accept = 'image/*';
+            fileInput.style.display = 'none';
+
+            // Filename input (hidden)
+            const fileNameInput = document.createElement('input');
+            fileNameInput.type = 'text';
+            fileNameInput.id = 'fileName';
+            fileNameInput.value = 'No file chosen';
+            fileNameInput.readOnly = true;
+            fileNameInput.style.display = 'none';
+
+            // Upload button
+            const selectFileButton = document.createElement('button');
+            selectFileButton.id = 'selectFileButton';
+            selectFileButton.textContent = 'Upload';
+            selectFileButton.style.padding = '10px 15px';
+            selectFileButton.style.marginTop = '10px';
+            selectFileButton.style.border = 'none';
+            selectFileButton.style.borderRadius = '5px';
+            selectFileButton.style.backgroundColor = '#007bff';
+            selectFileButton.style.color = 'white';
+            selectFileButton.style.cursor = 'pointer';
+            selectFileButton.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            // Preview div
+            const preview = document.createElement('div');
+            preview.id = 'preview';
+            preview.className = 'preview';
+            preview.style.marginTop = '20px';
+            preview.style.width = '100%';
+            preview.style.height = '300px';
+            preview.style.border = '1px solid #ccc';
+            preview.style.display = 'flex';
+            preview.style.alignItems = 'center';
+            preview.style.justifyContent = 'center';
+            preview.style.position = 'relative';
+
+            // Preview image
+            const previewImage = document.createElement('img');
+            previewImage.id = 'previewImage';
+            previewImage.src = container.getAttribute('data-existing-image-url');
+            previewImage.alt = 'File Preview';
+            previewImage.style.maxWidth = '100%';
+            previewImage.style.maxHeight = '100%';
+            preview.appendChild(previewImage);
+
+            // Remove button
+            const removeButton = document.createElement('button');
+            removeButton.id = 'removeButton';
+            removeButton.type = 'button';
+            removeButton.textContent = 'Remove';
+            removeButton.style.position = 'absolute';
+            removeButton.style.bottom = '10px';
+            removeButton.style.right = '10px';
+            removeButton.style.padding = '5px 10px';
+            removeButton.style.backgroundColor = '#ff6347';
+            removeButton.style.color = 'white';
+            removeButton.style.border = 'none';
+            removeButton.style.borderRadius = '5px';
+            removeButton.style.cursor = 'pointer';
+            removeButton.style.display = 'none';
+            removeButton.addEventListener('click', () => {
+                fileStack.pop();
+                updatePreview();
+            });
+            preview.appendChild(removeButton);
+
+            // Append elements to container
+            container.appendChild(fileInput);
+            container.appendChild(fileNameInput);
+            container.appendChild(selectFileButton);
+            container.appendChild(preview);
+
+            // Append container to body
+            document.body.appendChild(container);
+
+            // JavaScript for file handling
+            let fileStack = [];
+
+            fileInput.addEventListener('change', (event) => {
+                const files = Array.from(event.target.files);
+                files.forEach((file) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        fileStack.push({ url: e.target.result, name: file.name });
+                        updatePreview();
+                    };
+                    reader.readAsDataURL(file);
+                });
+                event.target.value = ''; // Reset input for re-uploads
+            });
+
+            // Update preview function
+            function updatePreview() {
+                if (fileStack.length > 0) {
+                    const lastFile = fileStack[fileStack.length - 1];
+                    previewImage.src = lastFile.url;
+                    fileNameInput.value = lastFile.name;
+                    removeButton.style.display = 'block';
+                } else {
+                    previewImage.src = container.getAttribute('data-existing-image-url');
+                    fileNameInput.value = 'No file chosen';
+                    removeButton.style.display = 'none';
+                }
+            }
+
+            // Initial preview setup
+            updatePreview();
+        }
+
+        // Call the function immediately to display the container on page load
+        createAndShowContainer();
+    </script>
+</body>
+</html>

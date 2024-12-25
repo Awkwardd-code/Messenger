@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Data Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #data {
+            /* margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background: #f9f9f9; */
+            height: 200px; 
+            overflow-y: auto; 
+            display: flex;
+            flex-direction: column-reverse; 
+        }
+        #data ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        #data ul li {
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>AJAX Data Display Example</h1>
+    <button id="fetchData">Load Data</button>
+    <div id="data">
+        <p>No data loaded yet.</p>
+    </div>
+
+    <script>
+        document.getElementById('fetchData').addEventListener('click', function () {
+            const dataDiv = document.getElementById('data');
+            dataDiv.innerHTML = '<p>Loading...</p>'; // Show a loading message
+
+            // Simulating an AJAX call using a timeout
+            setTimeout(function () {
+                // Simulated data
+                const data = [
+                    "Item 1", "Item 2", "Item 3", "Item 4",
+                    "Item 5", "Item 6", "Item 7", "Item 8",
+                    "Item 9", "Item 10", "Item 11", "Item 12"
+                ];
+
+                // Generate HTML content
+                let html = '<ul>';
+                data.forEach(item => {
+                    html += `<li>${item}</li>`;
+                });
+                html += '</ul>';
+
+                // Display the data
+                dataDiv.innerHTML = html;
+            }, 1000); // Simulates a 1-second delay
+        });
+    </script>
+</body>
+</html>

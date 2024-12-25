@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit View with Image Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: calc(100% - 120px);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .preview {
+            margin-top: 20px;
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #removeButton {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit View with Image Preview</h1>
+        
+        <!-- File input and "Select File" button -->
+        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        <input type="text" id="fileName" value="No file chosen" readonly>
+        <button id="selectFileButton">Select File</button>
+        
+        <!-- Preview section with the existing image loaded from the database -->
+        <div id="preview" class="preview">
+            <!-- Display existing image by default -->
+            <img id="previewImage" src="images/feed-image-4.png" alt="File Preview">
+        </div>
+    </div>
+
+    <script>
+        // URL of the existing image from the database (replace with actual URL)
+        const existingImageUrl = "images/feed-image-4.png"; // Change this to the actual URL from the DB
+        let fileStack = []; // Stack to hold new file objects
+
+        // Trigger file input click on button press
+        document.getElementById('selectFileButton').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        // Handle file input change
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const files = Array.from(event.target.files);
+
+            files.forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Push the new file object (with URL and name) to the stack
+                    fileStack.push({ url: e.target.result, name: file.name });
+                    updatePreview(); // Update preview with the selected file
+                };
+                reader.readAsDataURL(file);
+            });
+
+            event.target.value = ''; // Clear the file input
+        });
+
+        // Update preview based on the current file stack
+        function updatePreview() {
+            const previewImage = document.getElementById('previewImage');
+            const fileNameInput = document.getElementById('fileName');
+            const previewContainer = document.getElementById('preview');
+
+            if (fileStack.length > 0) {
+                // Show the last file in the stack (newly selected image)
+                const lastFile = fileStack[fileStack.length - 1];
+                previewImage.src = lastFile.url; // Set the preview image source to the new file
+                fileNameInput.value = lastFile.name; // Update the file name input
+                previewImage.style.display = 'block';
+
+                // Show "Remove" button if not already present
+                if (!document.getElementById('removeButton')) {
+                    const removeButton = document.createElement('button');
+                    removeButton.id = 'removeButton';
+                    removeButton.innerText = 'Remove';
+                    removeButton.addEventListener('click', function() {
+                        fileStack.pop(); // Remove the last file
+                        updatePreview(); // Update preview after removing
+                    });
+                    previewContainer.appendChild(removeButton);
+                }
+            } else {
+                // If no new files selected, retain the existing image
+                fileNameInput.value = 'No file chosen';
+                previewImage.src = existingImageUrl; // Keep showing the original image from the database
+
+                // Remove the "Remove" button if no new files are selected
+                const removeButton = document.getElementById('removeButton');
+                if (removeButton) {
+                    removeButton.remove();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

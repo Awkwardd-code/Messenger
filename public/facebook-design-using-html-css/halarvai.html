@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Example</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.container {
+    text-align: center;
+}
+
+.file-name {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="file-name" class="file-name">No file chosen</div>
+        <label class="file-upload">
+            <input type="file" id="file-input" onchange="updateFileName()">
+            Choose File
+        </label>
+    </div>
+
+    <script>
+        function updateFileName() {
+    const input = document.getElementById('file-input');
+    const fileNameDisplay = document.getElementById('file-name');
+    if (input.files.length > 0) {
+        fileNameDisplay.textContent = input.files[0].name;
+    } else {
+        fileNameDisplay.textContent = 'No file chosen';
+    }
+}
+
+    </script>
+</body>
+</html>

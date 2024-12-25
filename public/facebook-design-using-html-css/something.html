@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>File Upload and Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        #preview {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 600px; /* Set a fixed width for the preview area */
+            margin-left: auto; /* Center the div */
+            margin-right: auto; /* Center the div */
+        }
+        .file-preview {
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 120px !important;
+            position: relative;
+            border-radius: 10px;
+        }
+        .remove-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #inputField {
+            width: 600px; /* Match the width of the preview area */
+            margin-top: 20px; /* Add space above the input field */
+            padding: 10px; /* Add padding for better appearance */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            font-size: 24px; /* Adjust icon size */
+            margin: 0 10px; /* Space between buttons */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Upload and Preview Files</h1>
+    <input style="display: none;" type="file" id="videoFileInput" accept=".gif,.mp4" multiple />
+    <input style="display: none;" type="file" id="fileInput" accept=".jpg,.jpeg,.png,.pdf,.webm,.txt,.docx,.pptx" multiple />
+    <button class="icon-button"><i class="fa fa-upload"  id="uploadButton"></i></button>
+    <button class="icon-button" ><i class="fa fa-video-camera" id="videoUploadButton"></i></button>
+    
+    <div id="preview"></div> 
+    <input type="text" id="inputField" placeholder="Enter additional information..." />
+
+    <script>
+        const previewArea = document.getElementById('preview');
+        const fileInput = document.getElementById('fileInput');
+        const videoFileInput = document.getElementById('videoFileInput');
+
+        document.getElementById('uploadButton').addEventListener('click', function() {
+            fileInput.click();
+        });
+        document.getElementById('videoUploadButton').addEventListener('click', function() {
+            videoFileInput.click();
+        });
+        
+        videoFileInput.addEventListener('change', function(event) {
+            const files = Array.from(event.target.files);
+            files.forEach(file => {
+                const fileType = file.type;
+                const fileURL = URL.createObjectURL(file);
+                const filePreview = document.createElement('div');
+                filePreview.className = 'file-preview';
+
+                const removeButton = document.createElement('button');
+                removeButton.className = 'remove-button';
+                removeButton.innerHTML = '<i class="fa fa-close"></i>';
+                removeButton.onclick = function() {
+                    previewArea.removeChild(filePreview);
+                    if (previewArea.childNodes.length === 0) {
+                        videoFileInput.value = '';
+                    }
+                };
+
+                if (fileType.startsWith('video/')) {
+                    const video = document.createElement('video');
+                    video.src = fileURL;
+                    video.controls = true;
+                    video.style.maxWidth = '100%';
+                    filePreview.appendChild(video);
+                } else {
+                    filePreview.innerHTML = '<p>File type not supported for preview.</p>';
+                }
+
+                filePreview.appendChild(removeButton);
+                previewArea.appendChild(filePreview);
+            });
+        });
+
+        fileInput.addEventListener('change', function(event) {
+            const files = Array.from(event.target.files);
+            files.forEach(file => {
+                const fileType = file.type;
+                const fileURL = URL.createObjectURL(file);
+                const filePreview = document.createElement('div');
+                filePreview.className = 'file-preview';
+
+                const removeButton = document.createElement('button');
+                removeButton.className = 'remove-button';
+                removeButton.innerHTML = '<i class="fa fa-close"></i>';
+                removeButton.onclick = function() {
+                    previewArea.removeChild(filePreview);
+                    if (previewArea.childNodes.length === 0) {
+                        fileInput.value = '';
+                    }
+                };
+
+                if (fileType.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = fileURL;
+                    img.style.maxWidth = '100%';
+                    filePreview.appendChild(img);
+                } else if (fileType === 'application/pdf') {
+                    const pdfEmbed = document.createElement('embed');
+                    pdfEmbed.src = fileURL;
+                    pdfEmbed.type = 'application/pdf';
+                    pdfEmbed.width = '100%';
+                    pdfEmbed.height = '120px';
+                    filePreview.appendChild(pdfEmbed);
+                } else if (fileType.startsWith('video/')) {
+                    const video = document.createElement('video');
+                    video.src = fileURL;
+                    video.controls = true;
+                    video.style.maxWidth = '100%';
+                    filePreview.appendChild(video);
+                } else {
+                    filePreview.innerHTML = '<p>File type not supported for preview.</p>';
+                }
+
+                filePreview.appendChild(removeButton);
+                previewArea.appendChild(filePreview);
+            });
+        });
+
+    </script>
+
+</body>
+</html>
+

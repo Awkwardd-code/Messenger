@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+   <link rel="stylesheet" href="./style.css">
+   <link rel="stylesheet" href="../../contact-us-form/src/style.css">
+   <style>
+       
+    .custom-file-input {
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: #fff;
+        color: #333;
+        margin: 0px 20px;
+    }
+
+    
+
+
+</style>
+</head>
+<body>
+   <div class="container">
+      <div class="text">
+          Contact us Form
+          <!-- <center>
+            <div id="imagePreview" class="image-preview"></div>
+          </center> -->
+          <div id="imagePreview" class="image-preview"></div>
+          
+      </div>
+      
+        <form id="Register_form">
+          <div class="form-row">
+              <div class="input-data">
+                  <input type="text" name="" required>
+              <div class="underline"></div>
+              <label for="">Name</label>
+              </div>
+              <div class="input-data">
+                  <input type="email" name="" required>
+              <div class="underline"></div>
+              <label for=""> Email Address</label>
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="input-data">
+                  <input type="password" name="" required>
+              <div class="underline"></div>
+              <label for=""> Password</label>
+              </div>
+              <div class="input-data">
+                  <input type="password" name="" required>
+              <div class="underline"></div>
+              <label for="">Confirm Password</label>
+              </div>
+          </div>
+          <div class="form-row">
+                <div class="input-data">
+                    <a href="">Forget Password</a>
+                </div>
+                <div class="input-data">
+                    <a href="">Register</a>
+                </div>
+            </div>
+            <!-- <div class="form-row">
+                <div class="input-data">
+                    <a href="" class="button_link">Bad mein mill batata hoon</a>
+                </div>
+                <div class="input-data">
+                    <a href="" class="button_link">Bad mein mill batata hoon</a>
+                </div>
+            </div> -->
+        
+          <div class="form-row submit_form">
+                  
+              <div class="input-data ">
+                  
+                  <div class="form-row submit-btn">
+                      <div class="input-data">
+                          <div class="inner"></div>
+                          <input type="submit" value="submit">
+                      </div>
+                  </div>
+                  
+              </div>
+              
+          </div>
+          
+          <!-- <div class="form-row">
+            <div class="input-data">
+              <a href="" class="button_link">Bad mein mill batata hoon</a>
+            </div>
+            <div class="input-data">
+                <input type="password" name="" required>
+            
+            <label for="">Confirm Password</label>
+            </div> -->
+        
+      </form>
+      
+  </div>
+
+  <script>
+   /* document.getElementById('file').addEventListener('change', function() {
+       const label = document.querySelector('.file-input-label');
+       const fileName = this.files[0] ? this.files[0].name : 'Choose a file...';
+       label.setAttribute('data-file-name', fileName);
+   }); */
+       document.getElementById('fileInput').addEventListener('change', function(event) {
+       const file = event.target.files[0];
+       const imagePreview = document.getElementById('imagePreview');
+
+       if (file && file.type.startsWith('image/')) {
+               const reader = new FileReader();
+               
+               reader.onload = function(e) {
+                   imagePreview.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image">`;
+               };
+               
+               reader.readAsDataURL(file);
+           } else {
+               imagePreview.innerHTML = 'Please select a valid image file.';
+           }
+       });
+
+</script>
+</body>
+</html>

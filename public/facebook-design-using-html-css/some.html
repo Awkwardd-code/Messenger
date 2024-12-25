@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit View with Image Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input[type="file"] {
+            display: none; /* Hide the file input */
+        }
+        .file-icon {
+            font-size: 30px;
+            color: #007bff;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .file-icon:hover {
+            color: #0056b3;
+        }
+        .default-preview-wrapper {
+            margin-top: 20px;
+        }
+        .default-preview, .preview {
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .default-preview img, .preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .preview {
+            display: none; /* Preview hidden initially */
+        }
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #ff6347;
+            cursor: pointer;
+            background: white;
+            border-radius: 50%;
+            padding: 5px;
+        }
+        .close-icon:hover {
+            color: #d9534f;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            .file-icon {
+                font-size: 24px;
+            }
+            .default-preview, .preview {
+                height: 250px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            .file-icon {
+                font-size: 20px;
+            }
+            .default-preview, .preview {
+                height: 200px;
+            }
+            h1 {
+                font-size: 1.25em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit View with Image Preview</h1>
+        
+        <input type="file" id="editFileInput" accept="image/*">
+        
+        <!-- File Manager Icon to trigger file upload -->
+        <span id="fileIcon" class="file-icon">&#128193;</span> <!-- Unicode for a file manager icon -->
+
+        <!-- Wrapper for Default Preview div -->
+        <div class="default-preview-wrapper">
+            <!-- Default Preview div - visible initially -->
+            <div id="defaultPreview" class="default-preview">
+                <img src="images/feed-image-5.png" alt="Default Preview">
+            </div>
+        </div>
+
+        <!-- Image Preview div - hidden initially -->
+        <div id="preview" class="preview">
+            <span id="closeIcon" class="close-icon">✖</span>
+            <img id="previewImage" alt="File Preview">
+        </div>
+    </div>
+
+    <script>
+
+        
+        let fileStack = []; // Stack to hold new file objects
+
+        // Click the file input when the icon is clicked
+        document.getElementById('fileIcon').addEventListener('click', function() {
+            document.getElementById('editFileInput').click();
+        });
+
+        document.getElementById('editFileInput').addEventListener('change', function(event) {
+            const files = Array.from(event.target.files);
+            files.forEach((file) => {
+                if (!file.type.startsWith('image/')) {
+                    alert("Only image files are allowed!");
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fileStack.push({ url: e.target.result, name: file.name });
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            });
+            event.target.value = ''; // Clear file input
+        });
+
+        function updatePreview() {
+            const defaultPreviewDiv = document.getElementById('defaultPreview');
+            const previewDiv = document.getElementById('preview');
+            const previewImage = document.getElementById('previewImage');
+
+            if (fileStack.length > 0) {
+                const lastFile = fileStack[fileStack.length - 1];
+                previewImage.src = lastFile.url;
+                previewDiv.style.display = 'flex'; // Show the preview div
+                defaultPreviewDiv.style.display = 'none'; // Hide the default preview div
+            } else {
+                previewImage.src = '';
+                previewDiv.style.display = 'none'; // Hide the preview div
+                defaultPreviewDiv.style.display = 'flex'; // Show the default preview div
+            }
+        }
+
+        // Event listener for the close icon to remove the preview
+        document.getElementById('closeIcon').addEventListener('click', function() {
+            fileStack.pop();
+            updatePreview();
+        });
+    </script>
+</body>
+</html>

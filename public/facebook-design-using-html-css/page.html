@@ -1,0 +1,543 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+        }
+        .container input[type="text"],
+        .container input[type="email"],
+        .container input[type="password"],
+        .container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Responsive Form</h2>
+        <form>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html> -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @mixin placeholder {
+  &::-webkit-input-placeholder { @content }
+  &:-moz-placeholder { @content }
+  &::-moz-placeholder { @content }
+  &:-ms-input-placeholder { @content }
+}
+
+body {
+  background: #2a7cd3;
+  font-family: 'Arial';
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+p {
+  color: #fff;
+  
+  a {
+    color: rgba(255,255,255, 0.5);
+  }
+}
+
+form {
+  position: relative;
+  margin: 200px auto 50px auto;
+  width: 550px;
+  height: 80px;
+}
+
+input {
+  @include placeholder {
+    color: #fff;
+    text-transform: capitalize;
+  }
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  border: 0;
+  border-radius: 4px;
+  background: #065cb7;
+  outline: 0;
+  padding: 2em 1em 1em 1em;
+  color: #fff;
+  font-size: 1em;
+  transition: background 0.35s ease-out;
+  
+  &:focus {
+    background: #044f9e;
+  }
+  
+  &:focus + label {
+    transform: translateY(-10px) scale(0.8);
+    color: #6da6df;
+    
+    + button {
+      opacity: 1;
+    }
+  }
+}
+
+label {
+  position: absolute;
+  left: 1em;
+  top: 50%;
+  margin-top: -8px;
+  color: #fff;
+  text-transform: capitalize;
+  transform-origin: left center;
+  transition: transform 0.25s ease-out, color 0.25s ease-out;
+}
+
+button {
+  position: absolute;
+  right: 0;
+  width: 120px;
+  height: 100%;
+  border: 0;
+  border-radius: 4px;
+  font-size: 1em;
+  background: #065cb7;
+  color: #044f9e;
+  cursor: pointer;
+  opacity: 0;
+  outline: none;
+  transition: opacity 0.35s ease-out, width 0.5s ease-out, background 0.25s ease-out;
+}
+
+button.is-active {
+  background: #5c94cd;
+  color: #fff;
+}
+
+button.is-done {
+  width: 100%;
+  opacity: 1;
+}
+
+
+  </style>
+</head>
+<body>
+  <form>
+    <input type="email" id="email"/>
+    <label for="email">email address</label>
+    <button id="button">OK</button>
+  </form>
+  
+  <p>Original <a href="https://dribbble.com/shots/2359423-Daily-UI-026-Subscribe" target="_blank">idea</a> by <a href="https://dribbble.com/dmtors" target="_blank"> Derek Torsani</a> on Dribbble</p>
+  <script>
+    var email = document.getElementById('email'),
+    button = document.getElementById('button');
+
+function validateEmail(email) {
+    var ex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    return ex.test(email);
+}
+
+email.addEventListener('keydown', function() {
+  var email = this.value;
+  
+  if(validateEmail(email)) {
+    button.classList.add('is-active');
+  }
+});
+
+button.addEventListener('click', function(e){
+  e.preventDefault();
+  this.classList.add('is-done','is-active');
+  
+  setTimeout(function(){ 
+    button.innerHTML = "Thanks! Check Your Email."
+  }, 500);
+});
+
+
+
+
+
+
+
+  </script>
+</body>
+</html> -->
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload Preview</title>
+    <style>
+      body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+.image-preview {
+    margin-top: 20px;
+    width: 300px;
+    height: 300px;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Upload and Preview</h1>
+        <input type="file" id="fileInput" accept="image/*">
+        <div id="imagePreview" class="image-preview"></div>
+    </div>
+    <script>
+            document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const imagePreview = document.getElementById('imagePreview');
+
+            if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image">`;
+                    };
+                    
+                    reader.readAsDataURL(file);
+                } else {
+                    imagePreview.innerHTML = 'Please select a valid image file.';
+                }
+            });
+
+    </script>
+</body>
+</html>
+
+  -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .custom-file-input {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+}
+
+.custom-file-input input[type="file"] {
+    display: none; 
+}
+
+.file-name {
+    display: inline-block;
+}
+
+
+.custom-file-input input[type="file"]:focus + .file-name {
+    outline: none;
+    border: 1px solid #007bff; 
+}
+
+  </style>
+</head>
+<body>
+  <label class="custom-file-input">
+    <input type="file" id="file-upload" />
+    <span class="file-name">Choose a file</span>
+</label>
+<script>
+  document.getElementById('file-upload').addEventListener('change', function() {
+    const fileName = this.files.length > 0 ? this.files[0].name : 'Choose a file';
+    document.querySelector('.file-name').textContent = fileName;
+});
+
+</script>
+</body>
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #auto-resize-textarea {
+        width: 100%;
+        min-height: 50px;
+        max-height: 500px; 
+        overflow-y: hidden; 
+        resize: none;       
+        padding: 10px;
+        font-size: 16px;
+        line-height: 1.5;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+  </style>
+</head>
+<body>
+  <textarea id="auto-resize-textarea" placeholder="Start typing..."></textarea>
+
+
+
+    <script>
+      const textarea = document.getElementById('auto-resize-textarea');
+
+      textarea.addEventListener('input', () => {
+          textarea.style.height = 'auto'; // Reset the height to auto
+          textarea.style.height = `${textarea.scrollHeight}px`; // Set it to the scroll height
+      });
+
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit View with Image Preview</title>
+    <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="file"] {
+            display: none; /* Hide the file input */
+        }
+        input[type="text"] {
+            width: calc(100% - 120px);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .preview {
+            margin-top: 20px;
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #removeButton {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" data-existing-image-url="images/feed-image-4.png">
+        <h1>Edit View with Image Preview</h1>
+
+        <input type="file" id="editFileInput" accept="image/*" style="display: none;">
+        <input type="text" id="fileName" value="No file chosen" readonly style="display: none;">
+        
+        <button id="selectFileButton" type="button">Upload</button>
+
+        <div id="preview" class="preview" >
+            <!-- Display the existing image initially -->
+            <img id="previewImage" src="images/feed-image-4.png" alt="File Preview">
+            
+        </div>
+    </div>
+
+    <script>
+      
+        // Initial variables
+        const container = document.querySelector('.container');
+        const existingImageUrl = container.getAttribute('data-existing-image-url');
+        let fileStack = []; 
+
+        // Upload button click to trigger file input
+        document.getElementById('selectFileButton').addEventListener('click', () => {
+            document.getElementById('editFileInput').click();
+        });
+
+        // Event listener for file selection and preview
+        document.getElementById('editFileInput').addEventListener('change', (event) => {
+            const files = Array.from(event.target.files);
+            files.forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    fileStack.push({ url: e.target.result, name: file.name });
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            });
+            event.target.value = ''; // Reset input for re-uploads
+        });
+
+        // Remove button setup
+        let removeButton = document.getElementById('removeButton');
+        if (!removeButton) {
+            removeButton = document.createElement('button');
+            removeButton.id = 'removeButton';
+            removeButton.type = 'button';
+            removeButton.innerText = 'Remove';
+            removeButton.style.display = 'none';
+            removeButton.addEventListener('click', () => {
+                fileStack.pop(); // Remove the last file
+                updatePreview(); // Update preview
+            });
+            document.getElementById('preview').appendChild(removeButton);
+        }
+
+        // Update preview function
+        function updatePreview() {
+            const previewImage = document.getElementById('previewImage');
+            const fileNameInput = document.getElementById('fileName');
+
+            if (fileStack.length > 0) {
+                // Show last uploaded image if stack has files
+                const lastFile = fileStack[fileStack.length - 1];
+                previewImage.src = lastFile.url;
+                fileNameInput.value = lastFile.name;
+                removeButton.style.display = 'block'; // Show remove button
+            } else {
+                // Revert to existing image if stack is empty
+                previewImage.src = existingImageUrl;
+                fileNameInput.value = 'No file chosen';
+                removeButton.style.display = 'none'; // Hide remove button
+            }
+        }
+
+        // Initial call to display existing image on page load
+        updatePreview();
+    </script>
+</body>
+</html>

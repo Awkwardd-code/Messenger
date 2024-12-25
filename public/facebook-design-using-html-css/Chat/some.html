@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll from Bottom to Top</title>
+  <style>
+    /* Scrollable container styling */
+    #scrollable-container {
+      overflow-y: auto;
+      height: 400px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Scrollable Area Example</h1>
+  <div id="scrollable-container">
+    <div id="content">
+      <!-- Initial Content -->
+      <p>Old Content 1</p>
+      <p>Old Content 2</p>
+      <p>Old Content 3</p>
+      <p>Old Content 1</p>
+      <p>Old Content 2</p>
+      <p>Old Content 3</p>
+      <p>Old Content 1</p>
+      <p>Old Content 2</p>
+      <p>Old Content 3</p>
+      <p>Old Content 1</p>
+      <p>Old Content 2</p>
+      <p>Old Content 3</p>
+      <p>Old Content 1</p>
+      <p>Old Content 2</p>
+      <p>Old Content 3</p>
+      <p>Old Content 1</p>
+      <p>Old Content 2</p>
+      <p>Old Content 3</p>
+      <p>Old Content 1</p>
+      <p>Old Content 2</p>
+      <p>Old Content 3</p>
+      <p>Old Content 1</p>
+      <p>Old Content 2</p>
+      <p>Old Content 3</p>
+    </div>
+  </div>
+  <button id="add-content">Add New Content</button>
+
+  <script>
+    /* document.addEventListener("DOMContentLoaded", function () {
+      const container = document.getElementById("scrollable-container");
+      const content = document.getElementById("content");
+      const addContentBtn = document.getElementById("add-content");
+
+      // Scroll to the bottom on page load
+      container.scrollTop = container.scrollHeight;
+
+      // Function to add new content dynamically
+      const addNewContent = () => {
+        const newContent = document.createElement("p");
+        newContent.textContent = `New Content ${Math.floor(Math.random() * 100)}`;
+        content.appendChild(newContent);
+
+        // Scroll to the bottom after adding new content
+        container.scrollTop = container.scrollHeight;
+      };
+
+      // Add event listener for the button
+      addContentBtn.addEventListener("click", addNewContent);
+    }); */
+    document.addEventListener("DOMContentLoaded", function () {
+      const container = document.getElementById("scrollable-container");
+      const content = document.getElementById("content");
+      const addContentBtn = document.getElementById("add-content");
+
+      // Scroll to the bottom on page load
+      container.scrollTop = container.scrollHeight;
+
+    });
+
+
+  </script>
+</body>
+
+</html>

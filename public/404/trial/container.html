@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Container with File Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="file"] {
+            display: none;
+        }
+        input[type="text"] {
+            width: calc(100% - 120px);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .preview {
+            margin-top: 20px;
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Placeholder for the container that will be loaded via AJAX -->
+    <div id="dynamicContainer"></div>
+
+    <script>
+        // Function to load container content with AJAX
+        function loadContainer() {
+            const containerHTML = `
+                <div class="container" data-existing-image-url="images/feed-image-4.png">
+                    <h1>Edit View with Image Preview</h1>
+                    <input type="file" id="editFileInput" accept="image/*" style="display: none;">
+                    <input type="text" id="fileName" value="No file chosen" readonly style="display: none;">
+                    <button id="selectFileButton" type="button">Upload</button>
+                    <div id="preview" class="preview">
+                        <img id="previewImage" src="images/feed-image-4.png" alt="File Preview">
+                    </div>
+                </div>
+            `;
+
+            // Insert the container HTML into dynamicContainer and initialize functionality
+            document.getElementById('dynamicContainer').innerHTML = containerHTML;
+            initializeContainerFunctions();
+        }
+
+        // Function to initialize file handling functionality
+        function initializeContainerFunctions() {
+            const container = document.querySelector('.container');
+            const fileInput = document.getElementById('editFileInput');
+            const fileNameInput = document.getElementById('fileName');
+            const selectFileButton = document.getElementById('selectFileButton');
+            const previewImage = document.getElementById('previewImage');
+            const previewDiv = document.getElementById('preview');
+            const existingImageUrl = container.getAttribute('data-existing-image-url');
+            let fileStack = [];
+
+            // Click to trigger file input
+            selectFileButton.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            // Handle file selection and preview update
+            fileInput.addEventListener('change', (event) => {
+                const files = Array.from(event.target.files);
+                files.forEach((file) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        fileStack.push({ url: e.target.result, name: file.name });
+                        updatePreview();
+                    };
+                    reader.readAsDataURL(file);
+                });
+                event.target.value = ''; // Reset input for re-uploads
+            });
+
+            // Create remove button dynamically if it doesn’t exist
+            let removeButton = document.getElementById('removeButton');
+            if (!removeButton) {
+                removeButton = document.createElement('button');
+                removeButton.id = 'removeButton';
+                removeButton.type = 'button';
+                removeButton.innerText = 'Remove';
+                removeButton.style.position = 'absolute';
+                removeButton.style.bottom = '10px';
+                removeButton.style.right = '10px';
+                removeButton.style.padding = '5px 10px';
+                removeButton.style.backgroundColor = '#ff6347';
+                removeButton.style.color = 'white';
+                removeButton.style.border = 'none';
+                removeButton.style.borderRadius = '5px';
+                removeButton.style.cursor = 'pointer';
+                removeButton.style.display = 'none';
+                removeButton.addEventListener('click', () => {
+                    fileStack.pop();
+                    updatePreview();
+                });
+                previewDiv.appendChild(removeButton);
+            }
+
+            // Function to update the image preview
+            function updatePreview() {
+                if (fileStack.length > 0) {
+                    const lastFile = fileStack[fileStack.length - 1];
+                    previewImage.src = lastFile.url;
+                    fileNameInput.value = lastFile.name;
+                    removeButton.style.display = 'block';
+                } else {
+                    previewImage.src = existingImageUrl;
+                    fileNameInput.value = 'No file chosen';
+                    removeButton.style.display = 'none';
+                }
+            }
+
+            // Initial preview setup
+            updatePreview();
+        }
+
+        // Call loadContainer immediately when the page loads
+        window.addEventListener('DOMContentLoaded', loadContainer);
+    </script>
+</body>
+</html>

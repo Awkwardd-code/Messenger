@@ -1,0 +1,150 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit View with Image Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="file"] {
+            display: none; /* Hide the file input */
+        }
+        input[type="text"] {
+            width: calc(100% - 120px);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .preview {
+            margin-top: 20px;
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #removeButton {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" data-existing-image-url="images/feed-image-4.png">
+        <h1>Edit View with Image Preview</h1>
+        
+        <input type="file" id="editFileInput" accept="image/*">
+        <input type="text" id="fileName" value="No file chosen" readonly style="display: none;">
+        
+        <button id="selectFileButton">Upload</button>
+        
+        <div id="preview" class="preview">
+            <!-- Display the existing image initially -->
+            <img id="previewImage" src="images/feed-image-4.png" alt="File Preview">
+        </div>
+    </div>
+
+    <script>
+        
+        // Get existing image URL from the container's data attribute
+        const container = document.querySelector('.container');
+        const existingImageUrl = container.getAttribute('data-existing-image-url'); // Get the existing image URL
+        let fileStack = []; // Stack to hold new file objects
+
+        document.getElementById('selectFileButton').addEventListener('click', function() {
+            document.getElementById('editFileInput').click();
+        });
+
+        document.getElementById('editFileInput').addEventListener('change', function(event) {
+            const files = Array.from(event.target.files);
+            files.forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fileStack.push({ url: e.target.result, name: file.name });
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            });
+            event.target.value = ''; // Clear file input
+        });
+
+        function updatePreview() {
+            const previewImage = document.getElementById('previewImage');
+            const fileNameInput = document.getElementById('fileName');
+
+            if (fileStack.length > 0) {
+                // Show the last file in the stack (newly selected image)
+                const lastFile = fileStack[fileStack.length - 1];
+                previewImage.src = lastFile.url; // Update the preview image
+                fileNameInput.value = lastFile.name; // Update the file name input
+
+                // Show "Remove" button if not already present
+                if (!document.getElementById('removeButton')) {
+                    const removeButton = document.createElement('button');
+                    removeButton.id = 'removeButton';
+                    removeButton.type = 'button'; // Set type to button
+                    removeButton.innerText = 'Remove';
+                    removeButton.addEventListener('click', function() {
+                        fileStack.pop(); // Remove the last file
+                        updatePreview(); // Update preview after removing
+                    });
+                    document.getElementById('preview').appendChild(removeButton);
+                }
+            } else {
+                // If no new files are selected, revert to the existing image
+                fileNameInput.value = 'No file chosen';
+                previewImage.src = existingImageUrl; // Keep showing the original image from the database
+
+                // Remove the "Remove" button if no new files are selected
+                const removeButton = document.getElementById('removeButton');
+                if (removeButton) {
+                    removeButton.remove();
+                }
+            }
+        }
+    </script>
+</body>
+</html
